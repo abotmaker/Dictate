@@ -41,7 +41,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+//import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.openai.client.OpenAIClient;
 import com.openai.client.okhttp.OpenAIOkHttpClient;
 import com.openai.models.audio.AudioResponseFormat;
@@ -917,30 +917,7 @@ public class DictateInputMethodService extends InputMethodService {
         });
     }
 
-    private void sendLogToCrashlytics(Exception e) {
-        // get all values from SharedPreferences and add them as custom keys to crashlytics
-        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
-        for (String key : sp.getAll().keySet()) {
-            Object value = sp.getAll().get(key);
-            if (value instanceof Boolean) {
-                crashlytics.setCustomKey(key, (Boolean) value);
-            } else if (value instanceof Float) {
-                crashlytics.setCustomKey(key, (Float) value);
-            } else if (value instanceof Integer) {
-                crashlytics.setCustomKey(key, (Integer) value);
-            } else if (value instanceof Long) {
-                crashlytics.setCustomKey(key, (Long) value);
-            } else if (value instanceof String) {
-                crashlytics.setCustomKey(key, (String) value);
-            }
-        }
-        crashlytics.setUserId(sp.getString("net.devemperor.dictate.user_id", "null"));
-        crashlytics.recordException(e);
-        StringWriter sw = new StringWriter();
-        e.printStackTrace(new PrintWriter(sw));
-        Log.e("DictateInputMethodService", sw.toString());
-        Log.e("DictateInputMethodService", "Recorded crashlytics report");
-    }
+    
 
     private void showInfo(String type) {
         infoCl.setVisibility(View.VISIBLE);
