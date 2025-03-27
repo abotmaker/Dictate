@@ -8,7 +8,10 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # Consider using a specific LTS version for more stability than 'latest'
+    # runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04 # Or stick with ubuntu-latest if you prefer
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -18,19 +21,28 @@ jobs:
         with:
           java-version: '17'
           distribution: 'zulu'
+          # This caches Gradle dependencies and wrappers, improving build speed
           cache: 'gradle'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
+      # The 'android-actions/setup-android' action is deprecated and often unnecessary.
+      # AGP downloads required SDK components automatically.
+      # - name: Setup Android SDK
+      #   uses: android-actions/setup-android@v2 # <-- REMOVE THIS STEP
 
       - name: Grant gradlew permissions
+        # Ensure the Gradle wrapper script is executable
         run: chmod +x gradlew
 
       - name: Build with Gradle
+        # This command will compile the app and assemble the debug APK.
+        # AGP will download necessary SDK components if they aren't cached.
         run: ./gradlew assembleDebug
 
-      - name: Upload APK
+      - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug
+          name: app-debug # Name of the artifact
+          # Path to the generated APK file
           path: app/build/outputs/apk/debug/app-debug.apk
+          # Optional: Define retention days for the artifact
+          # retention-days: 7
