@@ -56,6 +56,6 @@ dependencies {
     implementation libs.commons.validator
 
     // Import the Firebase BoM
-    implementation platform(libs.firebase.bom)
-    implementation libs.firebase.crashlytics
+  //  implementation platform(libs.firebase.bom)
+   // implementation libs.firebase.crashlytics
 }
