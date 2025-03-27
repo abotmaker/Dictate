@@ -692,7 +692,7 @@ public class DictateInputMethodService extends InputMethodService {
             recorder.prepare();
             recorder.start();
         } catch (IOException e) {
-            sendLogToCrashlytics(e);
+            //sendLogToCrashlytics(e);
         }
 
         recordButton.setText(R.string.dictate_send);
