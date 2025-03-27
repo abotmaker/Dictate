@@ -14,8 +14,8 @@ android {
         applicationId "net.devemperor.dictate"
         minSdk 26
         targetSdk 35
-        versionCode 19
-        versionName "2.6.0"
+        versionCode 21
+        versionName "2.7.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -34,6 +34,10 @@ android {
     buildFeatures {
         buildConfig = true
     }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+    }
 }
 
 dependencies {
@@ -47,7 +51,7 @@ dependencies {
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
 
-    implementation libs.service
+    implementation libs.openai.java
     implementation libs.converter.jackson
     implementation libs.commons.validator
 

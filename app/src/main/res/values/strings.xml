@@ -65,7 +65,7 @@
     <string name="dictate_record">Record</string>
     <string name="dictate_send">Send (%1$s)</string>
     <string name="dictate_sending">Sending …</string>
-    <string name="dictate_timeout_msg">Timeout exceeded. Maybe OpenAI is overloaded or you have a poor internet connection. ❌</string>
+    <string name="dictate_timeout_msg">Timeout exceeded. Maybe OpenAI is overloaded or you have a poor internet connection.</string>
     <string name="dictate_invalid_api_key_msg">Invalid API key. Open settings to correct it?</string>
     <string name="dictate_quota_exceeded_msg">Your quota exceeded. Open OpenAI account to buy new credits?</string>
     <string name="dictate_internet_error_msg">Couldn\'t connect to OpenAI. Please check your internet connection.</string>
@@ -77,7 +77,7 @@
     <string name="dictate_settings_instant_output_title">Instant output ⏱️</string>
     <string name="dictate_settings_instant_output_summary">Disable typing animation when the result is ready</string>
     <string name="dictate_settings_vibration_summary">Vibrate on button presses and errors</string>
-    <string name="dictate_about" translatable="false">Dictate v%1$s\nMade with ❤️ by DevEmperor</string>
+    <string name="dictate_about" translatable="false">Dictate v%1$s\nMade with ❤️ by DevEmperor\nSoli deo gloria ✝️</string>
     <string name="dictate_settings_usage">View usage 📊</string>
     <string name="dictate_yes">Yes</string>
     <string name="dictate_no">No</string>
@@ -90,14 +90,14 @@
     <string name="dictate_onboarding_welcome">Welcome to\nDictate\n→</string>
     <string name="dictate_onboarding_permissions_microphone_request">Dictate needs your permission to use the microphone. Click the button below to grant this permission.</string>
     <string name="dictate_onboarding_permissions_microphone_button">Grant microphone permission</string>
-    <string name="dictate_onboarding_permissions_keyboard_request">Dictate must be activated as a keyboard in the settings. Click on the button below to enable this.</string>
+    <string name="dictate_onboarding_permissions_keyboard_request">Dictate must be activated as a keyboard in the settings. Click on the button below to enable this.\n\nYou can also activate the keyboard button on the navigation bar to switch to Dictate more quickly.</string>
     <string name="dictate_onboarding_permissions_keyboard_button">Enable Dictate keyboard</string>
     <string name="dictate_keyboard_disabled">Dictate keyboard disabled ❌.</string>
     <string name="dictate_keyboard_enabled">Dictate keyboard enabled ✅.</string>
     <string name="dictate_api_key_hint" translatable="false">sk-mV3Aj …</string>
     <string name="dictate_onboarding_api_key_finish">Set API key and finish setup</string>
-    <string name="dictate_onboarding_complete_dialog_title">How to switch to Dictate keyboard</string>
-    <string name="dictate_onboarding_complete_dialog_message">You can switch between your normal keyboard and Dictate at any time. Simply click on the keyboard status icon below your standard keyboard and select Dictate. Have fun with it. 💪</string>
+    <string name="dictate_onboarding_complete_dialog_title">Just some final information</string>
+    <string name="dictate_onboarding_complete_dialog_message">You can switch between your normal keyboard and Dictate at any time. Simply click on the keyboard status icon below your standard keyboard and select Dictate.\n\nIf you want to know the full potential of Dictate, go to the settings and check out the How-To page for detailed app instructions.\n\nDictate does not send any of your transcribed audios/texts anywhere (except to OpenAI for transcription of course). Since the developer values data protection, he does not receive any information about what you are recording. If you don\'t trust these words, feel free to look into the source code, to which you will find a link in the settings.\n\nHave fun with it 💪</string>
     <string name="dictate_settings_instant_recording_title">Instant recording 🎙️</string>
     <string name="dictate_settings_instant_recording_summary">Start recording as soon as you switch to Dictate keyboard</string>
     <string name="dictate_settings_api_title">API settings</string>
@@ -105,7 +105,6 @@
     <string name="dictate_settings_custom_api_host_enabled_title">Use custom Whisper API server 🛠️</string>
     <string name="dictate_settings_custom_api_host_title">Custom API server hostname</string>
     <string name="dictate_custom_host_hint" translatable="false">https://api.example.com/</string>
-    <string name="dictate_invalid_custom_host_msg">Invalid custom API host. Open settings to correct it?</string>
     <string name="dictate_custom_host_invalid_title">Invalid custom API address</string>
     <string name="dictate_custom_host_invalid_message">Your custom API server has to start with \'http:\' or \'https:\' and end with a \'/\'. Please check this again.</string>
     <string name="dictate_detect_automatically">Detect automatically</string>
@@ -143,12 +142,14 @@
     <string name="dictate_example_prompt_one_prompt">I want you to act as a French translator. I will speak to you in any language and you will detect the language, translate it and answer in the French version of my text. I want you to only reply the correction, the improvements and nothing else, do not write explanations and don\'t write quotation marks at start and end.</string>
     <string name="dictate_example_prompt_two_name">Summarise</string>
     <string name="dictate_example_prompt_two_prompt">Summarise the provided text. Do not add any new information or change the writing style. Just make sure that the text is shorter. Only output the summarised text, without any further information and without inverted commas at the beginning or end. Also make sure that you retain the input language of the text.</string>
-    <string name="dictate_example_prompt_three_name">Insert ❤️</string>
-    <string name="dictate_example_prompt_three_prompt">Insert a Unicode emoji symbol with a red heart. Only output the emoji, with no other text or characters.</string>
+    <string name="dictate_example_prompt_three_name">❤️</string>
+    <string name="dictate_example_prompt_three_prompt">[❤️]</string>
     <string name="dictate_example_prompt_four_name">Add joke</string>
-    <string name="dictate_example_prompt_four_prompt">"Tell me a funny joke. Only output the joke, without any further explanation. "</string>
+    <string name="dictate_example_prompt_four_prompt">Tell me a funny joke. Only output the joke, without any further explanation.</string>
+    <string name="dictate_example_prompt_five_name">Shrug</string>
+    <string name="dictate_example_prompt_five_prompt">[¯\_(ツ)_/¯]</string>
     <string name="dictate_changelog_7">v2.0\n\nThis update brings some major changes that make Dictate a truly powerful tool:\n\n- In the settings, you can now define your own rewording prompts. This allows you to have dictated text revised by ChatGPT, offering endless possibilities. You will find some example prompts in the settings that you can use as guides. 💡\n\n- The previous translation function has been removed, as you can now translate more flexibly with the rewording prompts. ❌\n\n- When you hold down the Enter button, you can now swipe to quickly insert characters without having to switch to another keyboard. You can set up to 8 custom characters in the settings. 🔤\n\n- Dictate now uses GPT-4o-mini to reduce costs. I plan to let you choose the GPT model for rewording in the future. 💸\n\n- Some design changes and bug fixes have been made. ✨\n\n\n</string>
-    <string name="dictate_settings_rewording_model_title">Change OpenAI model</string>
+    <string name="dictate_settings_rewording_model_title">Change rewording model</string>
     <string name="dictate_usage_cost" translatable="false">%1$.2f $</string>
     <string name="dictate_usage_audio_time" translatable="false">%1$d min, %2$d s</string>
     <string name="dictate_usage_no_usage">There is nothing to see here yet.\nStart transcription with Dictate\nto see the usage here.</string>
@@ -167,7 +168,7 @@
     <string name="dictate_style_prompt_custom_hint">Umm, let me think like, hmm… Okay, here\'s what I\'m, like, thinking.</string>
     <string name="dictate_style_prompt_punctuation_capitalization">Use punctuation and capitalization</string>
     <string name="dictate_style_prompt_nothing">No style prompt</string>
-    <string name="dictate_content_size_limit_msg">Your audio file is too large (>25 MB).</string>
+    <string name="dictate_content_size_limit_msg">Your audio file is too large (>25 MB) or too long (>25 minutes).</string>
     <string name="dictate_choose_audio_file">Choose an audio file</string>
     <string name="dictate_file_too_large_title">Media file too large</string>
     <string name="dictate_file_too_large_message">Sadly, this media file is too large. Whisper accepts a maximum of 25 MB at once. 🥲</string>
@@ -195,8 +196,14 @@
     <string name="dictate_settings_audio_focus_title">Audio focus ⏸️</string>
     <string name="dictate_settings_audio_focus_summary">Pause background media while recording</string>
     <string name="dictate_changelog_17">v2.4.5\n\nThis is just a tiny update that adds a settings option to disable the audio focus. You can now control whether background audio (e.g. music, podcasts, …) should be paused automatically.\n\n\n</string>
-    <string name="dictate_settings_rewording_history_title">Rewording history ⏪</string>
-    <string name="dictate_settings_rewording_history_summary">Show buttons to undo/redo rewording</string>
     <string name="dictate_changelog_18">v2.5.0\n\n- This update brings a cool new feature:\nYou can now undo and redo changes that were made after transcribing or rewording a text. Just click on the two buttons in the rewording section to jump through the history. ⏪\n\n- Some design changes and bug fixes have been made. ✨\n\nAs always, feel free to contact me with questions and ideas via GitHub or the email button below. ☺️\n\n\n</string>
     <string name="dictate_changelog_19">v2.6.0\n\n- Advanced reasoning models were added (o1, o3, o3-mini), which allow even better rewording. ✨\n\n- This update adds a better indicator for switching between input languages: The text on the record button now adapts to the currently selected input language. 💪\n\n- Some design changes and bug fixes have been made. ✨\n\nAs always, feel free to contact me with questions and ideas via GitHub or the email button below. ☺️\n\n\n</string>
+    <string name="dictate_how_to_use_dictate">How to use Dictate</string>
+    <string name="dictate_settings_how_to">How to use Dictate ❓</string>
+    <string name="dictate_settings_how_to_summary">Read more detailed instructions about all features of Dictate</string>
+    <string name="dictate_settings_github">Contribute 💡</string>
+    <string name="dictate_settings_github_summary">Visit GitHub project to get code insights and contribute</string>
+    <string name="dictate_changelog_20">v2.7.0\n\nThis update brings some cool new features 🤩\n\n- Three buttons for cutting, copying and pasting have been added. In addition, the undo and redo functions are now more reliable. 📋\n\n- As I always get questions about functions that have already been added in the many emails I receive every day, I have created a detailed guide to all Dictate functions in the settings. If you want to get the most out of the app, have a look there. 📜\n\n- Some design changes and bug fixes have been made. ✨\n\nAs always, feel free to contact me with questions and ideas via GitHub or the email button below. ☺️\n\n\n</string>
+    <string name="dictate_settings_transcription_model_title">Change transcription model 🎙️</string>
+    <string name="dictate_changelog_21">v2.7.1\n\nThis update adds the new transcription models released by OpenAI last week. GPT-4o-transcribe and GPT-4o-mini-transcribe both have a smaller word-error-rate and GPT-4o-mini-transcribe costs just half the price that Whisper has cost. 🙌\nGPT-4o-mini-transcribe is selected by default now, but you can switch between these models at any time in the settings.\n\nFurthermore, I implemented a new library for all connections to OpenAI like transcription and rewording. This will allow more flexibility like adding proxy-settings, which will be added in the upcoming updates. 💪\n\nAs always, feel free to contact me with questions and ideas via GitHub or the email button below. ☺️\n\n\n</string>
 </resources>

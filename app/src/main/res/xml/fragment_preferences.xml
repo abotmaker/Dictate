@@ -30,14 +30,6 @@
             app:dependency="net.devemperor.dictate.rewording_enabled"
             app:summary="%s"/>
 
-        <androidx.preference.SwitchPreference
-            android:key="net.devemperor.dictate.rewording_history"
-            android:title="@string/dictate_settings_rewording_history_title"
-            android:summary="@string/dictate_settings_rewording_history_summary"
-            android:defaultValue="true"
-            app:iconSpaceReserved="false"
-            app:dependency="net.devemperor.dictate.rewording_enabled"/>
-
     </androidx.preference.PreferenceCategory>
 
     <androidx.preference.PreferenceCategory
@@ -126,6 +118,15 @@
             app:dialogTitle="@string/dictate_settings_api_key_title"
             app:iconSpaceReserved="false"/>
 
+        <androidx.preference.ListPreference
+            android:key="net.devemperor.dictate.transcription_model"
+            android:title="@string/dictate_settings_transcription_model_title"
+            app:iconSpaceReserved="false"
+            app:entries="@array/dictate_transcription_models"
+            app:entryValues="@array/dictate_transcription_models_values"
+            app:defaultValue="gpt-4o-mini-transcribe"
+            app:summary="%s"/>
+
         <androidx.preference.Preference
             android:key="net.devemperor.dictate.prompt"
             android:title="@string/dictate_settings_prompt_title"
@@ -155,6 +156,12 @@
         app:iconSpaceReserved="false">
 
         <androidx.preference.Preference
+            android:key="net.devemperor.dictate.how_to"
+            android:title="@string/dictate_settings_how_to"
+            android:summary="@string/dictate_settings_how_to_summary"
+            app:iconSpaceReserved="false"/>
+
+        <androidx.preference.Preference
             android:key="net.devemperor.dictate.cache"
             android:title="@string/dictate_settings_cache"
             android:summary="@string/dictate_settings_cache_summary"
@@ -165,6 +172,12 @@
             android:title="@string/dictate_settings_feedback"
             android:summary="@string/dictate_settings_feedback_address"
             app:enableCopying="true"
+            app:iconSpaceReserved="false"/>
+
+        <androidx.preference.Preference
+            android:key="net.devemperor.dictate.github"
+            android:title="@string/dictate_settings_github"
+            android:summary="@string/dictate_settings_github_summary"
             app:iconSpaceReserved="false"/>
 
         <androidx.preference.Preference

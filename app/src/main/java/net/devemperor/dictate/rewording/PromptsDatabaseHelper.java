@@ -53,6 +53,13 @@ public class PromptsDatabaseHelper extends SQLiteOpenHelper {
         cv.put("PROMPT", context.getString(R.string.dictate_example_prompt_four_prompt));
         cv.put("REQUIRES_SELECTION", 0);
         sqLiteDatabase.insert("PROMPTS", null, cv);
+
+        cv = new ContentValues();
+        cv.put("POS", 4);
+        cv.put("NAME", context.getString(R.string.dictate_example_prompt_five_name));
+        cv.put("PROMPT", context.getString(R.string.dictate_example_prompt_five_prompt));
+        cv.put("REQUIRES_SELECTION", 0);
+        sqLiteDatabase.insert("PROMPTS", null, cv);
     }
 
     @Override
@@ -118,15 +125,12 @@ public class PromptsDatabaseHelper extends SQLiteOpenHelper {
 
         List<PromptModel> models = new ArrayList<>();
         models.add(new PromptModel(-1, Integer.MIN_VALUE, null, null, false));  // Add empty model for instant prompt
-        if (context != null && context.getSharedPreferences("net.devemperor.dictate", Context.MODE_PRIVATE).getBoolean("net.devemperor.dictate.rewording_history", true)) {
-            models.add(new PromptModel(-2, Integer.MIN_VALUE + 1, null, null, false));  // Add empty model for undo button
-            models.add(new PromptModel(-3, Integer.MAX_VALUE - 1, null, null, false));  // Add empty model for redo button
-        }if (cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             do {
                 models.add(new PromptModel(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), cursor.getInt(4) == 1));
             } while (cursor.moveToNext());
         }
-        models.add(new PromptModel(-4, Integer.MAX_VALUE, null, null, false));  // Add empty model for add button
+        models.add(new PromptModel(-2, Integer.MAX_VALUE, null, null, false));  // Add empty model for add button
         cursor.close();
         db.close();
         return models;
