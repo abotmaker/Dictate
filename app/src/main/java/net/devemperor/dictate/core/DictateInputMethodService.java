@@ -692,7 +692,7 @@ public class DictateInputMethodService extends InputMethodService {
             recorder.prepare();
             recorder.start();
         } catch (IOException e) {
-            //sendLogToCrashlytics(e);
+            //// sendLogToCrashlytics(e);
         }
 
         recordButton.setText(R.string.dictate_send);
@@ -800,7 +800,7 @@ public class DictateInputMethodService extends InputMethodService {
 
             } catch (RuntimeException e) {
                 if (!(e.getCause() instanceof InterruptedIOException)) {
-                    sendLogToCrashlytics(e);
+                    // sendLogToCrashlytics(e);
                     if (vibrationEnabled) vibrator.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE));
                     mainHandler.post(() -> {
                         resendButton.setVisibility(View.VISIBLE);
@@ -817,7 +817,7 @@ public class DictateInputMethodService extends InputMethodService {
                         }
                     });
                 } else if (e.getCause().getMessage() != null && e.getCause().getMessage().contains("timeout")) {
-                    sendLogToCrashlytics(e);
+                    // sendLogToCrashlytics(e);
                     if (vibrationEnabled) vibrator.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE));
                     mainHandler.post(() -> {
                         resendButton.setVisibility(View.VISIBLE);
@@ -887,7 +887,7 @@ public class DictateInputMethodService extends InputMethodService {
                 }
             } catch (RuntimeException e) {
                 if (!(e.getCause() instanceof InterruptedIOException)) {
-                    sendLogToCrashlytics(e);
+                    // sendLogToCrashlytics(e);
                     if (vibrationEnabled) vibrator.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE));
                     mainHandler.post(() -> {
                         resendButton.setVisibility(View.VISIBLE);
@@ -900,7 +900,7 @@ public class DictateInputMethodService extends InputMethodService {
                         }
                     });
                 } else if (e.getCause().getMessage() != null && e.getCause().getMessage().contains("timeout")) {
-                    sendLogToCrashlytics(e);
+                    // sendLogToCrashlytics(e);
                     if (vibrationEnabled) vibrator.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE));
                     mainHandler.post(() -> {
                         resendButton.setVisibility(View.VISIBLE);
