@@ -42,7 +42,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.openai.client.okhttp.OpenAIOkHttpClient;
 import com.openai.models.audio.AudioResponseFormat;
 import com.openai.models.audio.transcriptions.Transcription;
@@ -58,6 +57,7 @@ import net.devemperor.dictate.rewording.PromptsKeyboardAdapter;
 import net.devemperor.dictate.rewording.PromptsOverviewActivity;
 import net.devemperor.dictate.settings.DictateSettingsActivity;
 import net.devemperor.dictate.R;
+import net.devemperor.dictate.bluetooth.BluetoothManager;
 import net.devemperor.dictate.usage.UsageDatabaseHelper;
 
 import java.io.File;
@@ -76,6 +76,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import android.util.TypedValue;
 
 // MAIN CLASS
 public class DictateInputMethodService extends InputMethodService {
@@ -110,6 +112,7 @@ public class DictateInputMethodService extends InputMethodService {
     private SharedPreferences sp;
     private AudioManager am;
     private AudioFocusRequest audioFocusRequest;
+    private BluetoothManager bluetoothManager;
 
     // define views
     private ConstraintLayout dictateKeyboardView;
@@ -169,7 +172,9 @@ public class DictateInputMethodService extends InputMethodService {
 
         // set background of dictateKeyboardView according to device theme (default in layout is already light)
         if ((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES) {
-            dictateKeyboardView.setBackgroundColor(getResources().getColor(R.color.dictate_keyboard_background_dark, getTheme()));
+            TypedValue typedValue = new TypedValue();
+            context.getTheme().resolveAttribute(com.google.android.material.R.attr.colorSecondary, typedValue, true);
+            dictateKeyboardView.setBackgroundColor(typedValue.data);
         }
 
         settingsButton = dictateKeyboardView.findViewById(R.id.settings_btn);
@@ -202,6 +207,10 @@ public class DictateInputMethodService extends InputMethodService {
         overlayCharactersLl = dictateKeyboardView.findViewById(R.id.overlay_characters_ll);
 
         promptsRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
+            bluetoothManager = new BluetoothManager(this);
+        }
 
         // if user id is not set, set a random number as user id
         if (sp.getString("net.devemperor.dictate.user_id", "null").equals("null")) {
@@ -539,6 +548,11 @@ public class DictateInputMethodService extends InputMethodService {
         if (speechApiThread != null) speechApiThread.shutdownNow();
         if (rewordingApiThread != null) rewordingApiThread.shutdownNow();
 
+        if (bluetoothManager != null) {
+            bluetoothManager.close();
+            bluetoothManager = null;
+        }
+
         pauseButton.setForeground(AppCompatResources.getDrawable(this, R.drawable.ic_baseline_pause_24));
         pauseButton.setVisibility(View.GONE);
         trashButton.setVisibility(View.GONE);
@@ -689,7 +703,11 @@ public class DictateInputMethodService extends InputMethodService {
         sp.edit().putString("net.devemperor.dictate.last_file_name", audioFile.getName()).apply();
 
         recorder = new MediaRecorder();
-        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        if (bluetoothManager != null && bluetoothManager.isHeadsetConnected()) {
+            recorder.setAudioSource(MediaRecorder.AudioSource.VOICE_COMMUNICATION);
+        } else {
+            recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        }
         recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         recorder.setAudioEncodingBitRate(64000);
@@ -702,7 +720,7 @@ public class DictateInputMethodService extends InputMethodService {
             recorder.prepare();
             recorder.start();
         } catch (IOException e) {
-            sendLogToCrashlytics(e);
+            throw new RuntimeException(e);
         }
 
         recordButton.setText(R.string.dictate_send);
@@ -822,7 +840,6 @@ public class DictateInputMethodService extends InputMethodService {
 
             } catch (RuntimeException e) {
                 if (!(e.getCause() instanceof InterruptedIOException)) {
-                    sendLogToCrashlytics(e);
                     if (vibrationEnabled) vibrator.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE));
                     mainHandler.post(() -> {
                         resendButton.setVisibility(View.VISIBLE);
@@ -840,7 +857,6 @@ public class DictateInputMethodService extends InputMethodService {
                         }
                     });
                 } else if (e.getCause().getMessage() != null && (e.getCause().getMessage().contains("timeout") || e.getCause().getMessage().contains("failed to connect"))) {
-                    sendLogToCrashlytics(e);
                     if (vibrationEnabled) vibrator.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE));
                     mainHandler.post(() -> {
                         resendButton.setVisibility(View.VISIBLE);
@@ -929,7 +945,6 @@ public class DictateInputMethodService extends InputMethodService {
                 }
             } catch (RuntimeException e) {
                 if (!(e.getCause() instanceof InterruptedIOException)) {
-                    sendLogToCrashlytics(e);
                     if (vibrationEnabled) vibrator.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE));
                     mainHandler.post(() -> {
                         resendButton.setVisibility(View.VISIBLE);
@@ -943,7 +958,6 @@ public class DictateInputMethodService extends InputMethodService {
                         }
                     });
                 } else if (e.getCause().getMessage() != null && e.getCause().getMessage().contains("timeout")) {
-                    sendLogToCrashlytics(e);
                     if (vibrationEnabled) vibrator.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE));
                     mainHandler.post(() -> {
                         resendButton.setVisibility(View.VISIBLE);
@@ -960,38 +974,15 @@ public class DictateInputMethodService extends InputMethodService {
         });
     }
 
-    private void sendLogToCrashlytics(Exception e) {
-        // get all values from SharedPreferences and add them as custom keys to crashlytics
-        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
-        for (String key : sp.getAll().keySet()) {
-            Object value = sp.getAll().get(key);
-            if (value instanceof Boolean) {
-                crashlytics.setCustomKey(key, (Boolean) value);
-            } else if (value instanceof Float) {
-                crashlytics.setCustomKey(key, (Float) value);
-            } else if (value instanceof Integer) {
-                crashlytics.setCustomKey(key, (Integer) value);
-            } else if (value instanceof Long) {
-                crashlytics.setCustomKey(key, (Long) value);
-            } else if (value instanceof String) {
-                crashlytics.setCustomKey(key, (String) value);
-            }
-        }
-        crashlytics.setUserId(sp.getString("net.devemperor.dictate.user_id", "null"));
-        crashlytics.recordException(e);
-        StringWriter sw = new StringWriter();
-        e.printStackTrace(new PrintWriter(sw));
-        Log.e("DictateInputMethodService", sw.toString());
-        Log.e("DictateInputMethodService", "Recorded crashlytics report");
-    }
-
     private void showInfo(String type) {
         infoCl.setVisibility(View.VISIBLE);
         infoNoButton.setVisibility(View.VISIBLE);
         infoTv.setTextColor(getResources().getColor(R.color.dictate_red, getTheme()));
         switch (type) {
             case "update":
-                infoTv.setTextColor(getResources().getColor(R.color.dictate_blue, getTheme()));
+                TypedValue typedValue = new TypedValue();
+                getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true);
+                infoTv.setTextColor(typedValue.data);
                 infoTv.setText(R.string.dictate_update_installed_msg);
                 infoYesButton.setVisibility(View.VISIBLE);
                 infoYesButton.setOnClickListener(v -> {
@@ -1004,7 +995,9 @@ public class DictateInputMethodService extends InputMethodService {
                 });
                 break;
             case "rate":
-                infoTv.setTextColor(getResources().getColor(R.color.dictate_blue, getTheme()));
+                TypedValue typedValue2 = new TypedValue();
+                getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue2, true);
+                infoTv.setTextColor(typedValue2.data);
                 infoTv.setText(R.string.dictate_rate_app_msg);
                 infoYesButton.setVisibility(View.VISIBLE);
                 infoYesButton.setOnClickListener(v -> {
@@ -1020,7 +1013,9 @@ public class DictateInputMethodService extends InputMethodService {
                 });
                 break;
             case "donate":
-                infoTv.setTextColor(getResources().getColor(R.color.dictate_blue, getTheme()));
+                TypedValue typedValue3 = new TypedValue();
+                getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue3, true);
+                infoTv.setTextColor(typedValue3.data);
                 infoTv.setText(R.string.dictate_donate_msg);
                 infoYesButton.setVisibility(View.VISIBLE);
                 infoYesButton.setOnClickListener(v -> {

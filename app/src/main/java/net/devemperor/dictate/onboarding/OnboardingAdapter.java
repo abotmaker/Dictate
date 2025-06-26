@@ -55,8 +55,10 @@ public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (position == 1) {
             TextView microphoneStatusTv = holder.itemView.findViewById(R.id.onboarding_permissions_microphone_status_tv);
+            TextView bluetoothStatusTv = holder.itemView.findViewById(R.id.onboarding_permissions_bluetooth_status_tv);
             TextView keyboardStatusTv = holder.itemView.findViewById(R.id.onboarding_permissions_keyboard_status_tv);
             Button microphoneBtn = holder.itemView.findViewById(R.id.onboarding_permissions_microphone_btn);
+            Button bluetoothBtn = holder.itemView.findViewById(R.id.onboarding_permissions_bluetooth_btn);
             Button keyboardBtn = holder.itemView.findViewById(R.id.onboarding_permissions_keyboard_btn);
 
             if (activity.checkSelfPermission(android.Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
@@ -65,6 +67,29 @@ public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.Vi
             }
 
             microphoneBtn.setOnClickListener(v -> activity.requestPermissions(new String[]{ android.Manifest.permission.RECORD_AUDIO }, 1337));
+
+            // Check Bluetooth permissions (both BLUETOOTH and BLUETOOTH_CONNECT)
+            boolean bluetoothPermissionGranted = false;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                // Android 12+ requires BLUETOOTH_CONNECT
+                bluetoothPermissionGranted = activity.checkSelfPermission(android.Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED;
+            } else {
+                // Android 11 and below use BLUETOOTH
+                bluetoothPermissionGranted = activity.checkSelfPermission(android.Manifest.permission.BLUETOOTH) == PackageManager.PERMISSION_GRANTED;
+            }
+
+            if (bluetoothPermissionGranted) {
+                bluetoothStatusTv.setText(activity.getString(R.string.dictate_bluetooth_permission_granted));
+                bluetoothBtn.setEnabled(false);
+            }
+
+            bluetoothBtn.setOnClickListener(v -> {
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                    activity.requestPermissions(new String[]{ android.Manifest.permission.BLUETOOTH_CONNECT }, 1338);
+                } else {
+                    activity.requestPermissions(new String[]{ android.Manifest.permission.BLUETOOTH }, 1338);
+                }
+            });
 
             List<InputMethodInfo> inputMethodsList = ((InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE)).getEnabledInputMethodList();
             for (InputMethodInfo inputMethod : inputMethodsList) {

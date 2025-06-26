@@ -62,6 +62,8 @@
     <string name="dictate_settings_title">Dictate Settings</string>
     <string name="dictate_microphone_permission_granted">Microphone permission granted ✅.</string>
     <string name="dictate_microphone_permission_denied">Microphone permission denied ❌.</string>
+    <string name="dictate_bluetooth_permission_granted">Bluetooth permission granted ✅.</string>
+    <string name="dictate_bluetooth_permission_denied">Bluetooth permission denied ❌.</string>
     <string name="dictate_record">Record</string>
     <string name="dictate_send">Send (%1$s)</string>
     <string name="dictate_sending">Sending …</string>
@@ -89,6 +91,8 @@
     <string name="dictate_onboarding_welcome">Welcome to\nDictate\n→</string>
     <string name="dictate_onboarding_permissions_microphone_request">Dictate needs your permission to use the microphone. Click the button below to grant this permission.</string>
     <string name="dictate_onboarding_permissions_microphone_button">Grant microphone permission</string>
+    <string name="dictate_onboarding_permissions_bluetooth_request">Dictate can connect to Bluetooth devices for better audio input. Click the button below to grant this permission (optional).</string>
+    <string name="dictate_onboarding_permissions_bluetooth_button">Grant Bluetooth permission</string>
     <string name="dictate_onboarding_permissions_keyboard_request">Dictate must be activated as a keyboard in the settings. Click on the button below to enable this.\n\nYou can also activate the keyboard button on the navigation bar to switch to Dictate more quickly.</string>
     <string name="dictate_onboarding_permissions_keyboard_button">Enable Dictate keyboard</string>
     <string name="dictate_keyboard_disabled">Dictate keyboard disabled ❌.</string>

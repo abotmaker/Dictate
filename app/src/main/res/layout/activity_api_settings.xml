@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/change_transcription_provider"
-                android:textColor="@color/dictate_blue" />
+                android:textColor="?attr/colorPrimary" />
 
             <Spinner
                 android:id="@+id/api_settings_transcription_provider_spn"
@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/change_transcription_model"
-                android:textColor="@color/dictate_blue" />
+                android:textColor="?attr/colorPrimary" />
 
             <Spinner
                 android:id="@+id/api_settings_transcription_model_spn"
@@ -66,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/enter_transcription_api_key"
-                android:textColor="@color/dictate_blue" />
+                android:textColor="?attr/colorPrimary" />
 
             <EditText
                 android:id="@+id/api_settings_transcription_api_key_et"
@@ -97,7 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/set_your_custom_transcription_server_host"
-                    android:textColor="@color/dictate_blue" />
+                    android:textColor="?attr/colorPrimary" />
 
                 <EditText
                     android:id="@+id/api_settings_transcription_custom_host_et"
@@ -121,7 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/set_your_custom_transcription_model"
-                    android:textColor="@color/dictate_blue" />
+                    android:textColor="?attr/colorPrimary" />
 
                 <EditText
                     android:id="@+id/api_settings_transcription_custom_model_et"
@@ -139,7 +139,7 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginTop="36dp"
-            android:background="@color/dictate_blue" />
+            android:background="?attr/colorPrimary" />
 
         <!-- Rewording Provider Group -->
         <LinearLayout
@@ -154,7 +154,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/change_rewording_provider"
-                android:textColor="@color/dictate_blue" />
+                android:textColor="?attr/colorPrimary" />
 
             <Spinner
                 android:id="@+id/api_settings_rewording_provider_spn"
@@ -175,7 +175,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/change_rewording_model"
-                android:textColor="@color/dictate_blue" />
+                android:textColor="?attr/colorPrimary" />
 
             <Spinner
                 android:id="@+id/api_settings_rewording_model_spn"
@@ -196,7 +196,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/enter_rewording_api_key"
-                android:textColor="@color/dictate_blue" />
+                android:textColor="?attr/colorPrimary" />
 
             <EditText
                 android:id="@+id/api_settings_rewording_api_key_et"
@@ -227,7 +227,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/set_your_custom_rewording_server_host"
-                    android:textColor="@color/dictate_blue" />
+                    android:textColor="?attr/colorPrimary" />
 
                 <EditText
                     android:id="@+id/api_settings_rewording_custom_host_et"
@@ -252,7 +252,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/set_your_custom_rewording_model"
-                    android:textColor="@color/dictate_blue" />
+                    android:textColor="?attr/colorPrimary" />
 
                 <EditText
                     android:id="@+id/api_settings_rewording_custom_model_et"

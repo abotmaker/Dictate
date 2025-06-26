@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.button.MaterialButton
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/prompts_keyboard_btn"
     android:layout_width="wrap_content"
@@ -9,5 +10,8 @@
     android:minHeight="0dp"
     android:minWidth="0dp"
     android:textSize="12sp"
+    android:textColor="@android:color/white"
+    android:backgroundTint="@color/dictate_secondary_background_light"
     android:foregroundGravity="center"
+    app:cornerRadius="8dp"
     tools:text="Translator French"/>

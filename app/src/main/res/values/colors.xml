@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--    Material 400-->
-    <color name="dictate_blue">#29B6F6</color>
+    <!-- Light Theme -->
+    <color name="dictate_primary_background_light">#1C1C1E</color>
+    <color name="dictate_secondary_background_light">#2C2C2E</color>
+    <color name="dictate_primary_accent_light">#48484A</color>
+    <color name="dictate_primary_text_light">#FFFFFF</color>
+    <color name="dictate_secondary_text_light">#F2F2F7</color>
 
-    <!--    Material 600-->
-    <color name="dictate_blue_dark">#1C7EAB</color>
+    <!-- Dark Theme -->
+    <color name="dictate_primary_background_dark">#1C1C1E</color>
+    <color name="dictate_secondary_background_dark">#2C2C2E</color>
+    <color name="dictate_primary_accent_dark">#48484A</color>
+    <color name="dictate_primary_text_dark">#FFFFFF</color>
+    <color name="dictate_secondary_text_dark">#F2F2F7</color>
 
     <color name="dictate_white">#ffffff</color>
     <color name="dictate_black">#000000</color>
-    <color name="dictate_grey">#A8A8A8</color>
     <color name="dictate_red">#E53935</color>
     <color name="dictate_green">#43A047</color>
-
-    <color name="dictate_keyboard_background_dark">#1b1b1d</color>
-    <color name="dictate_keyboard_background_light">#f1f1f1</color>
 </resources>

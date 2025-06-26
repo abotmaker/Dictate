@@ -40,6 +40,39 @@
         app:layout_constraintTop_toBottomOf="@+id/onboarding_permissions_microphone_btn" />
 
     <TextView
+        android:id="@+id/onboarding_permissions_bluetooth_request_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dictate_onboarding_permissions_bluetooth_request"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/onboarding_permissions_bluetooth_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+    <Button
+        android:id="@+id/onboarding_permissions_bluetooth_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dictate_onboarding_permissions_bluetooth_button"
+        app:layout_constraintBottom_toTopOf="@+id/onboarding_permissions_bluetooth_status_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/onboarding_permissions_bluetooth_request_tv" />
+
+    <TextView
+        android:id="@+id/onboarding_permissions_bluetooth_status_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dictate_bluetooth_permission_denied"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/divider2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/onboarding_permissions_bluetooth_btn" />
+
+    <TextView
         android:id="@+id/onboarding_permissions_keyboard_request_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,7 +81,7 @@
         app:layout_constraintBottom_toTopOf="@+id/onboarding_permissions_keyboard_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider" />
+        app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
     <Button
         android:id="@+id/onboarding_permissions_keyboard_btn"
@@ -80,9 +113,21 @@
         android:layout_marginTop="24dp"
         android:layout_marginBottom="24dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toTopOf="@+id/onboarding_permissions_keyboard_request_tv"
+        app:layout_constraintBottom_toTopOf="@+id/onboarding_permissions_bluetooth_request_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/onboarding_permissions_microphone_status_tv" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="313dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@+id/onboarding_permissions_keyboard_request_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/onboarding_permissions_bluetooth_status_tv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

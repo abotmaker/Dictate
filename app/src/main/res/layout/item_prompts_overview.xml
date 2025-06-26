@@ -36,7 +36,7 @@
         android:id="@+id/item_prompts_overview_move_up_btn"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:background="@android:color/transparent"
+        
         android:foreground="@drawable/ic_baseline_keyboard_arrow_up_24"
         android:foregroundGravity="center"
         android:minWidth="32dp"
@@ -48,7 +48,7 @@
         android:id="@+id/item_prompts_overview_move_down_btn"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:background="@android:color/transparent"
+        
         android:foreground="@drawable/ic_baseline_keyboard_arrow_down_24"
         android:foregroundGravity="center"
         android:minWidth="32dp"
@@ -60,7 +60,7 @@
         android:id="@+id/item_prompts_overview_delete_btn"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:background="@android:color/transparent"
+        
         android:foreground="@drawable/ic_baseline_delete_24_red"
         android:foregroundGravity="center"
         android:minWidth="32dp"

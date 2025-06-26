@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.provider.Settings;
@@ -57,6 +58,58 @@ public class DictateSettingsActivity extends AppCompatActivity {
                 .commit();
 
         SharedPreferences sp = getSharedPreferences("net.devemperor.dictate", MODE_PRIVATE);
+        filePickerLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK) {
+                if (result.getData() != null) {
+                    Uri uri = result.getData().getData();
+                    if (uri == null) return;
+
+                    Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+                    if (cursor == null) return;
+                    int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                    int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
+
+                    String fileName = "";
+                    long fileSize = 0;
+                    if (cursor.moveToFirst()) {
+                        fileName = cursor.getString(nameIndex);
+                        fileSize = cursor.getLong(sizeIndex);
+                    }
+                    cursor.close();
+
+                    // check if fileSize is larger than 25MB
+                    if (fileSize > 25 * 1024 * 1024) {
+                        new MaterialAlertDialogBuilder(this)
+                                .setTitle(R.string.dictate_file_too_large_title)
+                                .setMessage(R.string.dictate_file_too_large_message)
+                                .setPositiveButton(R.string.dictate_okay, null)
+                                .show();
+                        return;
+                    }
+
+                    // copy the inputFileUri file to app cache directory
+                    Toast.makeText(this, getString(R.string.dictate_file_copying_to_cache), Toast.LENGTH_SHORT).show();
+                    try {
+                        InputStream inputStream = getContentResolver().openInputStream(uri);
+                        FileOutputStream outputStream = new FileOutputStream(new File(getCacheDir(), fileName));
+                        byte[] buffer = new byte[4096];
+                        int bytesRead;
+                        if (inputStream != null) {
+                            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                                outputStream.write(buffer, 0, bytesRead);
+                            }
+                            outputStream.close();
+                            inputStream.close();
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    sp.edit().putString("net.devemperor.dictate.transcription_audio_file", fileName).apply();
+                }
+            }
+            finish();  // close the activity after the file has been picked
+        });
 
         // start onboarding if this is the first time for the user to open Dictate
         if (!sp.getBoolean("net.devemperor.dictate.onboarding_complete", false)) {
@@ -65,60 +118,6 @@ public class DictateSettingsActivity extends AppCompatActivity {
 
         // open file picker if user wants to transcribe a file
         } else if (getIntent().getBooleanExtra("net.devemperor.dictate.open_file_picker", false)) {
-            filePickerLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                    if (result.getResultCode() == RESULT_OK) {
-                        if (result.getData() != null) {
-                            Uri uri = result.getData().getData();
-                            if (uri == null) return;
-
-                            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-                            if (cursor == null) return;
-                            int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-                            int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
-
-                            String fileName = "";
-                            long fileSize = 0;
-                            if (cursor.moveToFirst()) {
-                                fileName = cursor.getString(nameIndex);
-                                fileSize = cursor.getLong(sizeIndex);
-                            }
-                            cursor.close();
-
-                            // check if fileSize is larger than 25MB
-                            if (fileSize > 25 * 1024 * 1024) {
-                                new MaterialAlertDialogBuilder(this)
-                                        .setTitle(R.string.dictate_file_too_large_title)
-                                        .setMessage(R.string.dictate_file_too_large_message)
-                                        .setPositiveButton(R.string.dictate_okay, null)
-                                        .show();
-                                return;
-                            }
-
-                            // copy the inputFileUri file to app cache directory
-                            Toast.makeText(this, getString(R.string.dictate_file_copying_to_cache), Toast.LENGTH_SHORT).show();
-                            try {
-                                InputStream inputStream = getContentResolver().openInputStream(uri);
-                                FileOutputStream outputStream = new FileOutputStream(new File(getCacheDir(), fileName));
-                                byte[] buffer = new byte[4096];
-                                int bytesRead;
-                                if (inputStream != null) {
-                                    while ((bytesRead = inputStream.read(buffer)) != -1) {
-                                        outputStream.write(buffer, 0, bytesRead);
-                                    }
-                                    outputStream.close();
-                                    inputStream.close();
-                                }
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-
-                            sp.edit().putString("net.devemperor.dictate.transcription_audio_file", fileName).apply();
-                        }
-                    }
-                    finish();  // close the activity after the file has been picked
-                }
-            );
-
             // let the user choose an audio file used for transcription
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             intent.setType("audio/*");
@@ -147,6 +146,9 @@ public class DictateSettingsActivity extends AppCompatActivity {
 
         } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{ Manifest.permission.RECORD_AUDIO }, 1337);
+
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{ Manifest.permission.BLUETOOTH_CONNECT }, 1338);
 
         } else {
             // check if keyboard is still enabled
@@ -177,6 +179,13 @@ public class DictateSettingsActivity extends AppCompatActivity {
                 Toast.makeText(this, R.string.dictate_microphone_permission_granted, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, R.string.dictate_microphone_permission_denied, Toast.LENGTH_SHORT).show();
+            }
+            finish();
+        } else if (requestCode == 1338) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, R.string.dictate_bluetooth_permission_granted, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, R.string.dictate_bluetooth_permission_denied, Toast.LENGTH_SHORT).show();
             }
             finish();
         }

@@ -61,6 +61,8 @@
     <string name="dictate_settings_title">Dictate Einstellungen</string>
     <string name="dictate_microphone_permission_granted">Mikrofon Berechtigung erteilt ✅.</string>
     <string name="dictate_microphone_permission_denied">Mikrofon Berechtigung abgelehnt ❌.</string>
+    <string name="dictate_bluetooth_permission_granted">Bluetooth-Berechtigung erteilt ✅.</string>
+    <string name="dictate_bluetooth_permission_denied">Bluetooth-Berechtigung verweigert ❌.</string>
     <string name="dictate_record">Aufnehmen</string>
     <string name="dictate_send">Senden (%1$s)</string>
     <string name="dictate_sending">Sendet …</string>
@@ -84,6 +86,8 @@
     <string name="dictate_feedback_title">Wähle eine E-Mail App</string>
     <string name="dictate_onboarding_permissions_microphone_request">Dictate benötigt deine Erlaubnis, das Mikrofon zu verwenden. Klicke auf die Schaltfläche unten, um diese Erlaubnis zu erteilen.</string>
     <string name="dictate_onboarding_permissions_microphone_button">Mikrofon Berechtigung erteilen</string>
+    <string name="dictate_onboarding_permissions_bluetooth_request">Dictate kann sich mit Bluetooth-Geräten für bessere Audioeingabe verbinden. Klicke auf die Schaltfläche unten, um diese Berechtigung zu erteilen (optional).</string>
+    <string name="dictate_onboarding_permissions_bluetooth_button">Bluetooth Berechtigung erteilen</string>
     <string name="dictate_onboarding_permissions_keyboard_request">Dictate muss in den Einstellungen als Tastatur aktiviert werden. Klicke auf die Schaltfläche unten, um dies zu aktivieren.\n\nDu kannst zusätzlich auch die Tastatur-Schaltfläche auf der Navigationsleiste aktivieren, um schneller zu Dictate wechseln zu können.</string>
     <string name="dictate_onboarding_permissions_keyboard_button">Dictate Tastatur aktivieren</string>
     <string name="dictate_keyboard_disabled">Dictate Tastatur deaktiviert ❌.</string>
