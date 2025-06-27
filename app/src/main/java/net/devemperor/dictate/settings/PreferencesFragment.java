@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.preference.EditTextPreference;
+import androidx.preference.ListPreference;
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -21,12 +23,15 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import net.devemperor.dictate.BuildConfig;
 import net.devemperor.dictate.DictateUtils;
 import net.devemperor.dictate.R;
+import net.devemperor.dictate.rewording.PromptModel;
+import net.devemperor.dictate.rewording.PromptsDatabaseHelper;
 import net.devemperor.dictate.rewording.PromptsOverviewActivity;
 import net.devemperor.dictate.usage.UsageActivity;
 import net.devemperor.dictate.usage.UsageDatabaseHelper;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,6 +39,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
 
     SharedPreferences sp;
     UsageDatabaseHelper usageDatabaseHelper;
+    PromptsDatabaseHelper promptsDb;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -48,6 +54,12 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
                 startActivity(new Intent(requireContext(), PromptsOverviewActivity.class));
                 return true;
             });
+        }
+
+        // Setup auto-rewording prompt selection
+        androidx.preference.ListPreference autoRewordingPromptPreference = findPreference("net.devemperor.dictate.auto_rewording_prompt_id");
+        if (autoRewordingPromptPreference != null) {
+            setupAutoRewordingPromptPreference(autoRewordingPromptPreference);
         }
 
         MultiSelectListPreference inputLanguagesPreference = findPreference("net.devemperor.dictate.input_languages");
@@ -242,5 +254,74 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
                 return true;
             });
         }
+    }
+
+    private void setupAutoRewordingPromptPreference(ListPreference autoRewordingPromptPreference) {
+        // Set up the preference lazily - only when clicked
+        autoRewordingPromptPreference.setOnPreferenceClickListener(preference -> {
+            try {
+                if (promptsDb == null) {
+                    promptsDb = new PromptsDatabaseHelper(requireContext());
+                }
+                
+                List<PromptModel> allPrompts = promptsDb.getAll(false); // Get prompts that don't require text selection
+                
+                if (allPrompts == null || allPrompts.isEmpty()) {
+                    Toast.makeText(requireContext(), getString(R.string.dictate_auto_rewording_no_prompts_available), Toast.LENGTH_LONG).show();
+                    return false; // Don't show dialog
+                }
+
+                // Create arrays for prompt names and IDs
+                String[] promptNames = new String[allPrompts.size()];
+                String[] promptIds = new String[allPrompts.size()];
+                
+                for (int i = 0; i < allPrompts.size(); i++) {
+                    PromptModel prompt = allPrompts.get(i);
+                    if (prompt != null) {
+                        promptNames[i] = prompt.getName() != null ? prompt.getName() : "Unnamed Prompt";
+                        promptIds[i] = String.valueOf(prompt.getId());
+                    } else {
+                        promptNames[i] = "Invalid Prompt";
+                        promptIds[i] = "0";
+                    }
+                }
+                
+                autoRewordingPromptPreference.setEntries(promptNames);
+                autoRewordingPromptPreference.setEntryValues(promptIds);
+                
+                return true; // Show dialog
+            } catch (Exception e) {
+                Log.e("PreferencesFragment", "Error setting up auto-rewording prompts", e);
+                Toast.makeText(requireContext(), "Error loading prompts", Toast.LENGTH_SHORT).show();
+                return false; // Don't show dialog
+            }
+        });
+        
+        // Set summary provider to show selected prompt name
+        autoRewordingPromptPreference.setSummaryProvider((Preference.SummaryProvider<ListPreference>) preference -> {
+            try {
+                String selectedValue = preference.getValue();
+                if (selectedValue == null || selectedValue.isEmpty()) {
+                    return getString(R.string.dictate_auto_rewording_no_prompt_selected);
+                }
+                
+                // Try to get the prompt name from database
+                if (promptsDb == null) {
+                    promptsDb = new PromptsDatabaseHelper(requireContext());
+                }
+                
+                PromptModel selectedPrompt = promptsDb.get(Integer.parseInt(selectedValue));
+                if (selectedPrompt != null && selectedPrompt.getName() != null) {
+                    return selectedPrompt.getName();
+                }
+                
+                return getString(R.string.dictate_auto_rewording_no_prompt_selected);
+            } catch (Exception e) {
+                return getString(R.string.dictate_auto_rewording_no_prompt_selected);
+            }
+        });
+        
+        // Set initial summary
+        autoRewordingPromptPreference.setSummary(getString(R.string.dictate_auto_rewording_no_prompt_selected));
     }
 }

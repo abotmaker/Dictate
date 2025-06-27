@@ -230,4 +230,10 @@
     <string name="dictate_usage_model_provider_groq" translatable="false">Groq</string>
     <string name="dictate_usage_model_provider_custom">Custom</string>
     <string name="dictate_changelog_23">v2.8.0\n\nThis update brings some cool new features 🤩\n\n- In addition to OpenAI, you can now choose Groq as a provider for transcription and editing. Groq is generally free and significantly faster at processing audio recordings. To switch, simply scroll down to the settings — there you\'ll find a dedicated page where you can set the provider separately for each function, or even use your own service. 🎉\n\n- The keyboard background now automatically switches to light or dark mode based on your system theme. 💡\n\n- Proxy settings offer more flexibility now. ⚙️\n\n- Dictate has a new app icon and improved Play Store listings. A big thank you to Jan for your work! 🤝\n\n- Some design changes and bug fixes have been made. ✨\n\nAs always, feel free to contact me with questions and ideas via GitHub or the email button below. ☺️\n\n\n</string>
+    <string name="dictate_settings_auto_rewording_title">Auto-apply rewording ⚡</string>
+    <string name="dictate_settings_auto_rewording_summary">Automatically apply a default rewording prompt to all transcribed text</string>
+    <string name="dictate_settings_auto_rewording_prompt_title">Default rewording prompt</string>
+    <string name="dictate_settings_auto_rewording_prompt_summary">Choose which prompt to apply automatically</string>
+    <string name="dictate_auto_rewording_no_prompt_selected">No prompt selected</string>
+    <string name="dictate_auto_rewording_no_prompts_available">No rewording prompts available. Create prompts first.</string>
 </resources>

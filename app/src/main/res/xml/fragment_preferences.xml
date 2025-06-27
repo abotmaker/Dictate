@@ -20,6 +20,21 @@
             app:iconSpaceReserved="false"
             app:dependency="net.devemperor.dictate.rewording_enabled"/>
 
+        <androidx.preference.SwitchPreference
+            android:key="net.devemperor.dictate.auto_rewording_enabled"
+            android:title="@string/dictate_settings_auto_rewording_title"
+            android:summary="@string/dictate_settings_auto_rewording_summary"
+            android:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:dependency="net.devemperor.dictate.rewording_enabled"/>
+
+        <androidx.preference.ListPreference
+            android:key="net.devemperor.dictate.auto_rewording_prompt_id"
+            android:title="@string/dictate_settings_auto_rewording_prompt_title"
+            android:summary="@string/dictate_settings_auto_rewording_prompt_summary"
+            app:iconSpaceReserved="false"
+            app:dependency="net.devemperor.dictate.auto_rewording_enabled"/>
+
     </androidx.preference.PreferenceCategory>
 
     <androidx.preference.PreferenceCategory

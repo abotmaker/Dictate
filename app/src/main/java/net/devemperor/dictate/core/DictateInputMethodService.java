@@ -815,6 +815,28 @@ public class DictateInputMethodService extends InputMethodService {
                 usageDb.edit(transcriptionModel, DictateUtils.getAudioDuration(audioFile), 0, 0, transcriptionProvider);
 
                 if (!instantPrompt) {
+                    // Check if auto-rewording is enabled
+                    boolean autoRewordingEnabled = sp.getBoolean("net.devemperor.dictate.rewording_enabled", true) 
+                                                && sp.getBoolean("net.devemperor.dictate.auto_rewording_enabled", false);
+                    
+                    if (autoRewordingEnabled) {
+                        String autoPromptIdStr = sp.getString("net.devemperor.dictate.auto_rewording_prompt_id", null);
+                        if (autoPromptIdStr != null) {
+                            try {
+                                int autoPromptId = Integer.parseInt(autoPromptIdStr);
+                                PromptModel autoPrompt = promptsDb.get(autoPromptId);
+                                if (autoPrompt != null) {
+                                    // Apply auto-rewording with the selected prompt
+                                    startGPTApiRequest(new PromptModel(-2, autoPrompt.getPos(), String.valueOf(autoPrompt.getId()), resultText, autoPrompt.requiresSelection()));
+                                    return; // Exit early, don't commit text directly
+                                }
+                            } catch (NumberFormatException e) {
+                                // Invalid prompt ID, fall through to normal text output
+                            }
+                        }
+                    }
+                    
+                    // Normal text output (no auto-rewording or auto-rewording failed)
                     InputConnection inputConnection = getCurrentInputConnection();
                     if (inputConnection != null) {
                         if (sp.getBoolean("net.devemperor.dictate.instant_output", false)) {
@@ -828,7 +850,7 @@ public class DictateInputMethodService extends InputMethodService {
                         }
                     }
                 } else {
-                    // continue with ChatGPT API request
+                    // continue with ChatGPT API request (live prompting)
                     instantPrompt = false;
                     startGPTApiRequest(new PromptModel(-1, Integer.MIN_VALUE, "", resultText, false));
                 }
@@ -915,8 +937,21 @@ public class DictateInputMethodService extends InputMethodService {
                     rewordedText = prompt.substring(1, prompt.length() - 1);
                 } else {
                     prompt += "\n\n" + DictateUtils.PROMPT_REWORDING_BE_PRECISE;
-                    if (getCurrentInputConnection().getSelectedText(0) != null) {
-                        prompt += "\n\n" + getCurrentInputConnection().getSelectedText(0).toString();
+                    
+                    // For auto-rewording (special ID), use the transcribed text passed in the prompt field
+                    if (model.getId() == -2) {
+                        // Auto-rewording: the "prompt" field actually contains the transcribed text to be reworded
+                        String transcribedText = model.getPrompt();
+                        String actualPrompt = promptsDb.get(Integer.parseInt(model.getName())).getPrompt(); // name field contains the prompt ID
+                        prompt = actualPrompt + "\n\n" + DictateUtils.PROMPT_REWORDING_BE_PRECISE + "\n\n" + transcribedText;
+                    } else if (model.getId() == -1) {
+                        // Live prompting: use the text from the prompt field
+                        prompt += "\n\n" + model.getPrompt();
+                    } else {
+                        // Regular prompting: use selected text
+                        if (getCurrentInputConnection().getSelectedText(0) != null) {
+                            prompt += "\n\n" + getCurrentInputConnection().getSelectedText(0).toString();
+                        }
                     }
 
                     ChatCompletionCreateParams chatCompletionCreateParams = ChatCompletionCreateParams.builder()
