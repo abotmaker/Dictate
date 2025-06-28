@@ -62,6 +62,14 @@ public class DictateUtils {
             case "llama-3.1-8b-instant":  // llama-3.1-8b-instant and llama3-8b-8192 cost the same
             case "llama3-8b-8192":
                 return inputTokens * 0.00000005 + outputTokens * 0.00000008;
+            
+            // OpenAI Realtime models - pricing based on audio duration
+            case "gpt-4o-mini-transcribe-realtime":
+                return audioTime * 0.000005f;  // Same pricing for realtime version
+            case "gpt-4o-transcribe-realtime":
+                return audioTime * 0.000010f;  // Same pricing for realtime version
+            case "whisper-1-realtime":
+                return audioTime * 0.000010f;  // Same pricing for realtime version
             default:
                 return 0;
         }
@@ -116,6 +124,14 @@ public class DictateUtils {
                 return "Llama 3 70B 8192";
             case "llama3-8b-8192":
                 return "Llama 3 8B 8192";
+
+            // OpenAI Realtime models (display same as regular models)
+            case "gpt-4o-mini-transcribe-realtime":
+                return "GPT-4o mini transcribe (Realtime)";
+            case "gpt-4o-transcribe-realtime":
+                return "GPT-4o transcribe (Realtime)";
+            case "whisper-1-realtime":
+                return "Whisper V2 (Realtime)";
 
             // For custom models, return the model name as is
             default:

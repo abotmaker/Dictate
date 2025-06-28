@@ -248,11 +248,13 @@
         <item>OpenAI</item>
         <item>Groq</item>
         <item>@string/dictate_custom_provider</item>
+        <item>OpenAI Realtime API</item>
     </string-array>
     <string-array name="dictate_api_providers_values">
         <item>https://api.openai.com/v1/</item>
         <item>https://api.groq.com/openai/v1/</item>
         <item>custom_server</item>
+        <item>openai_realtime</item>
     </string-array>
 
     <string-array name="dictate_transcription_models_openai">
@@ -276,6 +278,8 @@
         <item>whisper-large-v3</item>
         <item>distil-whisper-large-v3-en</item>
     </string-array>
+
+
 
     <string-array name="dictate_rewording_models_openai">
         <item>OpenAI o3 mini</item>
@@ -313,5 +317,20 @@
         <item>llama-guard-3-8b</item>
         <item>llama3-70b-8192</item>
         <item>llama3-8b-8192</item>
+    </string-array>
+
+    <string-array name="dictate_transcription_models_openai_realtime">
+        <item>GPT-4o mini transcribe (Working)</item>
+        <item>GPT-4o transcribe</item>
+        <item>GPT-4o mini realtime preview</item>
+        <item>GPT-4o realtime preview</item>
+        <item>Whisper-1 (Transcription)</item>
+    </string-array>
+    <string-array name="dictate_transcription_models_openai_realtime_values">
+        <item>gpt-4o-mini-transcribe</item>
+        <item>gpt-4o-transcribe</item>
+        <item>gpt-4o-mini-realtime-preview</item>
+        <item>gpt-4o-realtime-preview</item>
+        <item>whisper-1</item>
     </string-array>
 </resources>

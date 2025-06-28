@@ -47,7 +47,10 @@ dependencies {
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
 
-    implementation libs.openai.java
     implementation libs.converter.jackson
     implementation libs.commons.validator
+    implementation libs.openai.java
+
+    // Google Generative AI SDK for Gemini API
+    implementation 'com.google.ai.client.generativeai:generativeai:0.9.0'
 }

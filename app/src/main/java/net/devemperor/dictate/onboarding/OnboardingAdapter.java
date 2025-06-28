@@ -30,7 +30,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
-import java.util.Locale;
 
 
 public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.ViewHolder> {
@@ -108,7 +107,7 @@ public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.Vi
             StringBuilder stringBuilder = new StringBuilder();
             try {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(
-                        activity.getAssets().open("dictate_api_key_info_" + (Locale.getDefault().getLanguage().equals("de") ? "de" : "en") + ".html")));
+                        activity.getAssets().open("dictate_api_key_info_en.html")));
                 String line;
                 while ((line = reader.readLine()) != null) {
                     stringBuilder.append(line);

@@ -38,12 +38,17 @@ public class APISettingsActivity extends AppCompatActivity {
     private LinearLayout transcriptionCustomFieldsWrapper;
     private LinearLayout rewordingCustomFieldsWrapper;
 
+    // OpenAI Realtime API UI fields
+    private LinearLayout openaiRealtimeFieldsWrapper;
+
     private int transcriptionProvider;
     private String transcriptionOpenAIModel;
     private String transcriptionGroqModel;
     private String transcriptionAPIKey;
     private String transcriptionCustomHost;
     private String transcriptionCustomModel;
+    private String transcriptionOpenAIRealtimeModel;
+    private String openaiRealtimeAPIKey;
     private int rewordingProvider;
     private String rewordingOpenAIModel;
     private String rewordingGroqModel;
@@ -89,6 +94,7 @@ public class APISettingsActivity extends AppCompatActivity {
         transcriptionCustomFieldsWrapper = findViewById(R.id.api_settings_transcription_custom_fields_wrapper);
         rewordingCustomFieldsWrapper = findViewById(R.id.api_settings_rewording_custom_fields_wrapper);
 
+        // OpenAI Realtime API UI fields (no special UI needed, uses same API key as regular OpenAI)
 
         // CONFIGURE TRANSCRIPTION API SETTINGS
         transcriptionProvider = sp.getInt("net.devemperor.dictate.transcription_provider", 0);
@@ -97,11 +103,16 @@ public class APISettingsActivity extends AppCompatActivity {
         transcriptionAPIKey = sp.getString("net.devemperor.dictate.transcription_api_key", sp.getString("net.devemperor.dictate.api_key", ""));  // for upgrading: default is the old rewording API key
         transcriptionCustomHost = sp.getString("net.devemperor.dictate.transcription_custom_host", "");
         transcriptionCustomModel = sp.getString("net.devemperor.dictate.transcription_custom_model", "");
+        transcriptionOpenAIRealtimeModel = sp.getString("net.devemperor.dictate.transcription_openai_realtime_model", "gpt-4o-mini-transcribe");
+        openaiRealtimeAPIKey = sp.getString("net.devemperor.dictate.openai_realtime_api_key", "");
 
         transcriptionModelOpenAIAdapter = ArrayAdapter.createFromResource(this, R.array.dictate_transcription_models_openai, android.R.layout.simple_spinner_item);
         transcriptionModelOpenAIAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         transcriptionModelGroqAdapter = ArrayAdapter.createFromResource(this, R.array.dictate_transcription_models_groq, android.R.layout.simple_spinner_item);
         transcriptionModelGroqAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        ArrayAdapter<CharSequence> transcriptionModelOpenAIRealtimeAdapter = ArrayAdapter.createFromResource(this, R.array.dictate_transcription_models_openai_realtime, android.R.layout.simple_spinner_item);
+        transcriptionModelOpenAIRealtimeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         transcriptionProviderAdapter = ArrayAdapter.createFromResource(this, R.array.dictate_api_providers, android.R.layout.simple_spinner_item);
         transcriptionProviderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -128,10 +139,14 @@ public class APISettingsActivity extends AppCompatActivity {
                     String model = getResources().getStringArray(R.array.dictate_transcription_models_openai_values)[position];
                     sp.edit().putString("net.devemperor.dictate.transcription_openai_model", model).apply();
                     transcriptionOpenAIModel = model;
-                } else {
+                } else if (transcriptionProvider == 1) {
                     String model = getResources().getStringArray(R.array.dictate_transcription_models_groq_values)[position];
                     sp.edit().putString("net.devemperor.dictate.transcription_groq_model", model).apply();
                     transcriptionGroqModel = model;
+                } else if (transcriptionProvider == 3) {
+                    String model = getResources().getStringArray(R.array.dictate_transcription_models_openai_realtime_values)[position];
+                    sp.edit().putString("net.devemperor.dictate.transcription_openai_realtime_model", model).apply();
+                    transcriptionOpenAIRealtimeModel = model;
                 }
             }
             @Override
@@ -162,6 +177,7 @@ public class APISettingsActivity extends AppCompatActivity {
             }
         });
 
+        // Configure OpenAI Realtime API fields (no special UI needed, uses same API key)
 
         // CONFIGURE REWORDING API SETTINGS
         rewordingProvider = sp.getInt("net.devemperor.dictate.rewording_provider", 0);
@@ -253,6 +269,17 @@ public class APISettingsActivity extends AppCompatActivity {
 
             int pos = IntStream.range(0, transcriptionModelGroqAdapter.getCount())
                     .filter(i -> getResources().getStringArray(R.array.dictate_transcription_models_groq_values)[i].equals(transcriptionGroqModel))
+                    .findFirst()
+                    .orElse(0);
+            transcriptionModelSpn.setSelection(pos);
+        } else if (position == 3) {
+            // OpenAI Realtime API
+            ArrayAdapter<CharSequence> transcriptionModelOpenAIRealtimeAdapter = ArrayAdapter.createFromResource(this, R.array.dictate_transcription_models_openai_realtime, android.R.layout.simple_spinner_item);
+            transcriptionModelOpenAIRealtimeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            transcriptionModelSpn.setAdapter(transcriptionModelOpenAIRealtimeAdapter);
+
+            int pos = IntStream.range(0, transcriptionModelOpenAIRealtimeAdapter.getCount())
+                    .filter(i -> getResources().getStringArray(R.array.dictate_transcription_models_openai_realtime_values)[i].equals(transcriptionOpenAIRealtimeModel))
                     .findFirst()
                     .orElse(0);
             transcriptionModelSpn.setSelection(pos);

@@ -70,7 +70,7 @@
     <string name="dictate_timeout_msg">Timeout exceeded. Maybe OpenAI is overloaded or you have a poor internet connection.</string>
     <string name="dictate_invalid_api_key_msg">Invalid API key. Open settings to correct it?</string>
     <string name="dictate_quota_exceeded_msg">Your quota exceeded. Open OpenAI account to buy new credits?</string>
-    <string name="dictate_internet_error_msg">Couldn\'t connect to OpenAI. Please check your internet connection.</string>
+    <string name="dictate_internet_error_msg">No internet connection or server error. Please check your network connection.</string>
     <string name="dictate_okay">Okay</string>
     <string name="dictate_cancel">Cancel</string>
     <string name="dictate_settings_api_key_title">Change OpenAI API key 🔑</string>
@@ -176,7 +176,7 @@
     <string name="dictate_settings_output_speed_title">Output speed</string>
     <string name="dictate_live_prompt">Live prompt</string>
     <string name="dictate_settings_enable_resend_button_title">Resend button 🔄</string>
-    <string name="dictate_settings_enable_resend_button_summary">Show a button to send the previous recording</string>
+    <string name="dictate_settings_enable_resend_button_summary">Show a button to send the last recording again</string>
     <string name="dictate_settings_cache">Cache size: %1$d files (%2$.1f MB)</string>
     <string name="dictate_settings_cache_summary">Tap to clear cache</string>
     <string name="dictate_cache_cleared">Dictate cache cleared.</string>
@@ -191,6 +191,7 @@
     <string name="dictate_input_languages_empty">You have to select at least one input language.</string>
     <string name="dictate_changelog_15">v2.4.3\n\nThis is just a small update. In the settings, you can now select multiple input languages. If you then press and hold the switch-button while using Dictate, you can switch to one of these input languages faster. 💪\n\n\n</string>
     <string name="dictate_changelog_16">v2.4.4\n\nThis is just a small update with some minor improvements.\n\n- The device screen now remains turned on during recording to make longer recordings more comfortable.\n\n- If you have activated backups via Google Drive, all settings are backed up from time to time so that you can continue dictating directly on a new device.\n\n- Bugfix: The Enter button now sends text in URL bars in browsers.\n\n\n</string>
+
     <string name="dictate_settings_audio_focus_title">Audio focus ⏸️</string>
     <string name="dictate_settings_audio_focus_summary">Pause background media while recording</string>
     <string name="dictate_changelog_17">v2.4.5\n\nThis is just a tiny update that adds a settings option to disable the audio focus. You can now control whether background audio (e.g. music, podcasts, …) should be paused automatically.\n\n\n</string>
@@ -236,4 +237,12 @@
     <string name="dictate_settings_auto_rewording_prompt_summary">Choose which prompt to apply automatically</string>
     <string name="dictate_auto_rewording_no_prompt_selected">No prompt selected</string>
     <string name="dictate_auto_rewording_no_prompts_available">No rewording prompts available. Create prompts first.</string>
+    <string name="dictate_settings_voice_commands_title">Voice Commands 🎤</string>
+    <string name="dictate_settings_voice_commands_summary">Intelligently detect and execute voice editing commands (delete, replace, rewrite)</string>
+    <string name="dictate_openai_realtime_api_key_title">OpenAI Realtime API Key</string>
+    <string name="dictate_openai_realtime_api_key_summary">Enter your OpenAI API key for Realtime transcription</string>
+    <string name="dictate_settings_realtime_streaming_title">Enable Realtime Streaming</string>
+    <string name="dictate_settings_realtime_streaming_summary">Use WebSocket streaming for ultra-low latency transcription (when OpenAI Realtime API is selected)</string>
+    <string name="dictate_realtime_model_error_msg">The selected model is not compatible with OpenAI Realtime API. Please go to settings and choose a compatible transcription model (gpt-4o-mini-transcribe, gpt-4o-transcribe, or whisper-1).</string>
+    <string name="dictate_settings">Settings</string>
 </resources>

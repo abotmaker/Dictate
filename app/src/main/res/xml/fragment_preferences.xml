@@ -35,6 +35,14 @@
             app:iconSpaceReserved="false"
             app:dependency="net.devemperor.dictate.auto_rewording_enabled"/>
 
+        <androidx.preference.SwitchPreference
+            android:key="net.devemperor.dictate.voice_commands_enabled"
+            android:title="@string/dictate_settings_voice_commands_title"
+            android:summary="@string/dictate_settings_voice_commands_summary"
+            android:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:dependency="net.devemperor.dictate.rewording_enabled"/>
+
     </androidx.preference.PreferenceCategory>
 
     <androidx.preference.PreferenceCategory
@@ -86,6 +94,13 @@
             android:title="@string/dictate_settings_instant_recording_title"
             android:summary="@string/dictate_settings_instant_recording_summary"
             android:defaultValue="false"
+            app:iconSpaceReserved="false"/>
+
+        <androidx.preference.SwitchPreference
+            android:key="net.devemperor.dictate.openai_realtime_streaming"
+            android:title="@string/dictate_settings_realtime_streaming_title"
+            android:summary="@string/dictate_settings_realtime_streaming_summary"
+            android:defaultValue="true"
             app:iconSpaceReserved="false"/>
 
         <androidx.preference.SwitchPreference

@@ -18,7 +18,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 public class HowToActivity extends AppCompatActivity {
 
@@ -56,7 +55,7 @@ public class HowToActivity extends AppCompatActivity {
         List<String> content = new ArrayList<>();
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    getAssets().open("dictate_how_to_" + (Locale.getDefault().getLanguage().equals("de") ? "de" : "en") + ".txt")));
+                    getAssets().open("dictate_how_to_en.txt")));
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("#") || line.isEmpty()) continue;

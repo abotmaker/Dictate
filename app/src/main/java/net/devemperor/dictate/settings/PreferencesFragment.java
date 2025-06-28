@@ -321,7 +321,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
             }
         });
         
-        // Set initial summary
-        autoRewordingPromptPreference.setSummary(getString(R.string.dictate_auto_rewording_no_prompt_selected));
+        // No need to set initial summary - the SummaryProvider handles it automatically
     }
 }
